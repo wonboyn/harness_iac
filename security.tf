@@ -18,35 +18,46 @@ resource "aws_network_acl" "private" {
   tags       = local.nacl_tags
 }
 
-#resource "aws_network_acl" "public" {
-#  vpc_id     = aws_vpc.this.id
-#  subnet_ids = [aws_subnet.public.id]
-#  tags       = local.nacl_tags
-#}
+resource "aws_network_acl" "public" {
+  vpc_id     = aws_vpc.this.id
+  subnet_ids = [aws_subnet.public.id]
+  tags       = local.nacl_tags
+}
 
 
 # NACL Rules
-#resource "aws_network_acl_rule" "public_ssh_in" {
-#  network_acl_id = aws_network_acl.public.id
-#  rule_number    = 100
-#  egress         = false
-#  protocol       = "tcp"
-#  rule_action    = "allow"
-#  cidr_block     = var.nacl_ssh_whitelist_ip
-#  from_port      = 22
-#  to_port        = 22
-#}
+resource "aws_network_acl_rule" "public_ssh_in" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 100
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = var.nacl_ssh_whitelist_ip
+  from_port      = 22
+  to_port        = 22
+}
 
-#resource "aws_network_acl_rule" "public_ssh_out" {
-#  network_acl_id = aws_network_acl.public.id
-#  rule_number    = 110
-#  egress         = true
-#  protocol       = "tcp"
-#  rule_action    = "allow"
-#  cidr_block     = var.nacl_ssh_whitelist_ip
-#  from_port      = 22
-#  to_port        = 22
-#}
+resource "aws_network_acl_rule" "public_ssh_out" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 100
+  egress         = true
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = var.nacl_ssh_whitelist_ip
+  from_port      = 22
+  to_port        = 22
+}
+
+resource "aws_network_acl_rule" "public_ephemeral_out" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 200
+  egress         = true
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = var.nacl_ssh_whitelist_ip
+  from_port      = 1024
+  to_port        = 65535
+}
 
 
 # Security Group
