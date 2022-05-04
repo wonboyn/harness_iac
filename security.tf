@@ -1,12 +1,59 @@
+# Locals
+locals {
+  nacl_tags = merge(
+    var.common_tags, 
+    var.nacl_tags
+  )
+  sg_tags = merge(
+    var.common_tags, 
+    var.sg_tags
+  )
+}
+
+
+# NACL
+resource "aws_network_acl" "private" {
+  vpc_id     = aws_vpc.this.id
+  subnet_ids = [aws_subnet.private.id]
+  tags       = local.nacl_tags
+}
+
+#resource "aws_network_acl" "public" {
+#  vpc_id     = aws_vpc.this.id
+#  subnet_ids = [aws_subnet.public.id]
+#  tags       = local.nacl_tags
+#}
+
+
+# NACL Rules
+#resource "aws_network_acl_rule" "public_ssh_in" {
+#  network_acl_id = aws_network_acl.public.id
+#  rule_number    = 100
+#  egress         = false
+#  protocol       = "tcp"
+#  rule_action    = "allow"
+#  cidr_block     = var.nacl_ssh_whitelist_ip
+#  from_port      = 22
+#  to_port        = 22
+#}
+
+#resource "aws_network_acl_rule" "public_ssh_out" {
+#  network_acl_id = aws_network_acl.public.id
+#  rule_number    = 110
+#  egress         = true
+#  protocol       = "tcp"
+#  rule_action    = "allow"
+#  cidr_block     = var.nacl_ssh_whitelist_ip
+#  from_port      = 22
+#  to_port        = 22
+#}
+
+
 # Security Group
 resource "aws_security_group" "this" {
   name_prefix = var.sg_name_prefix
   vpc_id      = aws_vpc.this.id
-
-  tags = merge(
-    var.common_tags, 
-    var.sg_tags
-  )
+  tags        = local.sg_tags
 }
 
 

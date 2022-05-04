@@ -49,6 +49,26 @@ variable "ec2_tags" {
 
 
 ##########
+# NACL's
+##########
+variable "nacl_tags" {
+  description = "The tags to apply to the Network ACL's"
+  type        = map(string)
+  default     = {}
+}
+
+
+##########
+# NACL Rules
+##########
+variable "nacl_ssh_whitelist_ip" {
+  description = "The CIDR block to whitelist for SSH"
+  type        = string
+  default     = ""
+}
+
+
+##########
 # SG's
 ##########
 variable "sg_name_prefix" {
@@ -70,13 +90,13 @@ variable "sg_tags" {
 variable "subnet_cidr_block_private" {
   description = "The CIDR block to use for the private subnet"
   type        = string
-  default     = "10.0.0.0/28"
+  default     = "10.0.100.0/24"
 }
 
 variable "subnet_cidr_block_public" {
   description = "The CIDR block to use for the public subnet"
   type        = string
-  default     = "10.0.0.16/28"
+  default     = "10.0.200.0/24"
 }
 
 variable "subnet_tags" {
@@ -92,7 +112,7 @@ variable "subnet_tags" {
 variable "vpc_cidr_block" {
   description = "The CIDR block to use for the VPC"
   type        = string
-  default     = "10.0.0.0/27"
+  default     = "10.0.0.0/16"
 }
 
 variable "vpc_tags" {

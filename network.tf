@@ -34,13 +34,6 @@ resource "aws_route_table_association" "public" {
 }
 
 
-# VPC for the Harness Delegate
-resource "aws_vpc" "this" {
-  cidr_block = var.vpc_cidr_block
-  tags       = local.tags
-}
-
-
 # Subnets
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.this.id
@@ -56,4 +49,11 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   availability_zone       = local.az
   tags                    = local.tags
+}
+
+
+# VPC for the Harness Delegate
+resource "aws_vpc" "this" {
+  cidr_block = var.vpc_cidr_block
+  tags       = local.tags
 }
