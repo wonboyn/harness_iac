@@ -20,7 +20,7 @@ resource "aws_instance" "this" {
   instance_type          = var.ec2_instance_type
   key_name               = var.ec2_key_name
   subnet_id              = aws_subnet.public.id
-  user_data_base64       = var.ec2_user_data
+  user_data              = file("${path.module}/startup.sh")
   vpc_security_group_ids = [aws_security_group.this.id]
   root_block_device {
     volume_size          = var.ec2_volume_size
