@@ -22,8 +22,16 @@ resource "aws_instance" "this" {
   subnet_id              = aws_subnet.public.id
   user_data              = file("${path.module}/startup.sh")
   vpc_security_group_ids = [aws_security_group.this.id]
+
+  # Storage
   root_block_device {
     volume_size          = var.ec2_volume_size
+  }
+
+  # Copy Harness Docker delegate config
+  provisioner "file" {
+    source      = "conf/harness-delegate.yml"
+    destination = "/tmp/docker-compose.yml"
   }
 
   tags = merge(
