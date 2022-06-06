@@ -3,7 +3,7 @@
 # Install Docker Compose
 echo ""
 echo "Installing Docker Compose..."
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -s -L -o /usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)"
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 

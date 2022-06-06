@@ -30,7 +30,7 @@ source "amazon-ebs" "this" {
 
 # AMI build definition
 build {
-  name = "harness-slave"
+  name = "harness-slave-ami"
   sources = [
     "source.amazon-ebs.this"
   ]
