@@ -8,7 +8,7 @@ packer {
 }
 
 
-# Source definition for the AMI
+# AMI source definition
 source "amazon-ebs" "this" {
   ami_name      = var.ami_name
   instance_type = var.ami_instance_type
@@ -28,9 +28,9 @@ source "amazon-ebs" "this" {
 }
 
 
-# Build definition for the AMI
+# AMI build definition
 build {
-  name = "learn-packer"
+  name = "harness-slave"
   sources = [
     "source.amazon-ebs.this"
   ]

@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Install Docker
-echo ""
-echo "Installing Docker..."
-sudo amazon-linux-extras install docker
-
 # Install Docker Compose
 echo ""
 echo "Installing Docker Compose..."
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
+
+# Install Docker
+echo ""
+echo "Installing Docker..."
+sudo amazon-linux-extras install docker
 
 # Start Docker Service
 echo ""
