@@ -37,6 +37,12 @@ variable "ami_script_timeout" {
   default     = "30s"
 }
 
+variable "ami_ssh_user" {
+  description = "The user to use for ssh access"
+  type        = string
+  default     = "ec2-user"
+}
+
 variable "ami_tags" {
   description = "The tags to apply to the AMI"
   type        = map(string)

@@ -8,23 +8,27 @@ packer {
 }
 
 
+# AMI source filter
+data "amazon-ami" "this" {
+  region = var.ami_region
+  filters = {
+      architecture        = "x86_64",
+      name                = "amzn2-ami-hvm-2.0.*"
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+  }
+  most_recent = true
+  owners      = ["amazon"]
+}
+
+
 # AMI source definition
 source "amazon-ebs" "this" {
   ami_name      = var.ami_name
   instance_type = var.ami_instance_type
   region        = var.ami_region
-
-  source_ami_filter {
-    filters = {
-      architecture        = "x86_64",
-      name                = "amzn2-ami-hvm-2.0.*"
-      root-device-type    = "ebs"
-      virtualization-type = "hvm"
-    }
-    most_recent = true
-    owners      = ["amazon"]
-  }
-  ssh_username = "ec2-user"
+  ssh_username  = var.ami_ssh_user
+  source_ami    = data.amazon-ami.this.id
 }
 
 
