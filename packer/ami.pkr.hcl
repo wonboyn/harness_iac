@@ -44,4 +44,18 @@ build {
     pause_before = var.ami_script_pause
     timeout      = var.ami_script_timeout
   }
+
+  hcp_packer_registry {
+    bucket_name = "harness"
+    description = "Harness slave image."
+    bucket_labels = {
+      "owner"          = "platform-team"
+      "os"             = "Amazon Linux",
+    }
+
+    build_labels = {
+      "build-time"   = timestamp()
+      "build-source" = basename(path.cwd)
+    }
+  }
 }
