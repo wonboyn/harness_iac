@@ -27,19 +27,19 @@ jobs:
 
     # Build steps
     steps:
-    
+
     # Checkout
     - name: Checkout repository
       uses: actions/checkout@v2
-    
+
     # Log info
     - name: Log Info
       run: |
         echo Git Branch: ${{ github.ref }}
-        echo Packer Directory ${{ env.dir-src }}: 
+        echo Packer Directory: ${{ env.dir-src }}: 
         ls -al ${{ env.dir-src }}
-    
-    # Validate the template
+
+    # Validate the templates
     - name: Validate templates
       uses: hashicorp/packer-github-actions@master
       with:
@@ -47,15 +47,15 @@ jobs:
         arguments: -syntax-only
         target: ${{ env.dir-src }}
 
-      # Build the template
-      - name: Build templates
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: build
-          arguments: "-color=false -on-error=abort"
-          target: ${{ env.dir-src }}
-          working_directory: infrastructure/packer
-        env:
-          PACKER_LOG: 1
-          HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
-          HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
+    # Build the template
+    - name: Build templates
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: build
+        arguments: "-color=false -on-error=abort"
+        target: ${{ env.dir-src }}
+        working_directory: infrastructure/packer
+      env:
+        PACKER_LOG: 1
+        HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+        HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
