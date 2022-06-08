@@ -10,7 +10,7 @@
 #
 #######################################################
 
-name: Perform build & test
+name: Perform Packer Build
 on: 
   push:
     branches:
@@ -19,7 +19,7 @@ on:
 jobs:
   packer:
     runs-on: ubuntu-latest
-    name: packer
+    name: Build
     
     # Variables for the build job
     env:
