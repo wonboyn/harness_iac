@@ -1,0 +1,50 @@
+#######################################################
+# This workflow gets triggered on a merge request
+# to the main branch occurs.
+#
+# It performs the following tasks:
+#    - checkout the repo
+#    - log key details
+#    - validate the packer template
+#    - ???
+#
+#######################################################
+
+name: Perform build & test
+on: 
+  push:
+    branches:
+      - develop
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+    name: packer
+    
+    # Variables for the build job
+    env:
+      dir-src: '${{ github.workspace }}/packer'
+
+    # Build steps
+    steps:
+    
+    # Checkout
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    # Log info
+    - name: Log Info
+      run: |
+        echo Event: ${{ github.event_name }}
+        echo Git Ref: ${{ github.ref }}
+        echo Git SHA: ${{ github.sha }}
+        echo Packer Directory ${{ env.dir-src }}: 
+        ls -al ${{ env.dir-src }}
+    
+    # Validate the templates
+    - name: Validate templates
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: ${{ env.dir-src }}
