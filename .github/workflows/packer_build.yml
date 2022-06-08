@@ -5,8 +5,9 @@
 # It performs the following tasks:
 #    - checkout the repo
 #    - log key details
+#    - initialises packer
 #    - validate the packer template
-#    - ???
+#    - build the packer template
 #
 #######################################################
 
@@ -38,6 +39,13 @@ jobs:
         echo Git Branch: ${{ github.ref }}
         echo Packer Directory: ${{ env.dir-src }}: 
         ls -al ${{ env.dir-src }}
+
+    # Initialise packer
+    - name: Initialise
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: init
+        target: ${{ env.dir-src }}
 
     # Validate the templates
     - name: Validate templates
