@@ -35,16 +35,27 @@ jobs:
     # Log info
     - name: Log Info
       run: |
-        echo Event: ${{ github.event_name }}
-        echo Git Ref: ${{ github.ref }}
-        echo Git SHA: ${{ github.sha }}
+        echo Git Branch: ${{ github.ref }}
         echo Packer Directory ${{ env.dir-src }}: 
         ls -al ${{ env.dir-src }}
     
-    # Validate the templates
+    # Validate the template
     - name: Validate templates
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
         arguments: -syntax-only
         target: ${{ env.dir-src }}
+
+      # Build the template
+      - name: Build templates
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: build
+          arguments: "-color=false -on-error=abort"
+          target: ${{ env.dir-src }}
+          working_directory: infrastructure/packer
+        env:
+          PACKER_LOG: 1
+          HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+          HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
